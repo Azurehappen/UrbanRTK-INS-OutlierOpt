@@ -1,6 +1,6 @@
 function [flag,x_post,P_post,b,J_out,augcost,num_nodes,constraint,risk,penalty_sum] =...
     mapRiskAverseNbSlackRtk(p, num_constrain,y,H,P,R,J_l,x_prior)
-% Solves RAPS using B&B integer optimization approach.
+% Soft-constrained DiagRAPS for RTK Float solutions.
 % Computes MAP state estimate using the selected measurements.
 % OUTPUT:   x_post   - posterior state vector estimate
 %           by       - measurement selection vector (binary)
@@ -12,7 +12,6 @@ function [flag,x_post,P_post,b,J_out,augcost,num_nodes,constraint,risk,penalty_s
 %           r - Measurement Covariance matrix
 %           J_l - Information Matrix Lower Bound
 %           x_prior - prior state vector estimate
-% reference: [1] - PPP_RAPS_Linear.pdf
 
 num_states = p.modeToNumUserErrStates(p.state_mode);
 [m,n] = size(H);

@@ -251,22 +251,6 @@ switch p.est_mode
         p.num_meas_used = sum(b);
         if p.state_mode == p.pva_mode
             p.raps_num_sat = sum(b(1:length(y_rho)));
-            % flag_pos = true;
-            % if flag == true
-            %     [flag_pos,flag_vel] = rapsValidation(p.td_lambda+1,Pt_minus, res_all, Ht, R, b, length(y));
-            % end
-            % % % Compute vel in NED
-            % % prior_vel_ned = R_eg*x_minus(4:6);
-            % % vel_ned = x_ned(4:6)+prior_vel_ned;
-            % if flag_pos == false%... || flag_vel == false...
-            %     %|| velocityValidation(prior_vel_ned,vel_ned,cov_ned(6,6)) == false
-            %     cov_plus(1:6,1:6) = cov_plus(1:6,1:6) + diag(200^2*ones(6,1));
-            % % elseif flag_vel == false ||...
-            % %         velocityValidation(prior_vel_ned,vel_ned,cov_ned(6,6)) == false
-            % %     cov_ned(4:6,4:6) = cov_ned(4:6,4:6) + diag(50^2*ones(3,1));
-            % %     cov_ned(num_user_states+2,num_user_states+2) =...
-            % %         cov_ned(num_user_states+2,num_user_states+2) + 50^2;
-            % end
         else
             p.raps_num_sat = sum(b);
         end

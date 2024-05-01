@@ -117,11 +117,6 @@ for i = 1:p.inval:N
     cpt.is_open_sky = checkOpenSky(cpt.gps_range, cpt.gps_sat_pos, p.state0(1:3));
     switch p.post_mode
         case p.mode_sps % Standard GNSS
-            % if p.elev_mark ==0
-            % log = save_result(p,cpt,log,i,re_pos,clock_bias,res);
-            % else
-            % Compute the final position
-            % [re_pos,clock_bias,res] = userpos_Rcorr(p,cpt);
             tdoy = doy(obs.tr_prime(1:3,i)); % Day of year
             [rt.week, rt.dow, rt.sow] = date2gnsst(obs.tr_prime(:,i)');
             cpt.IoFac = zeros(length(cpt.corr_range),1);

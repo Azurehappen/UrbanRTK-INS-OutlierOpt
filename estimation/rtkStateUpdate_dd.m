@@ -252,7 +252,6 @@ switch p.est_mode
         % mapRiskAverseNonBiSlackMaxJ (Non-binary DiagRAPS)
         % mapRiskAverseSlack (Binary DiagRAPS)
         % mapRiskAverseCvx (Binary DiagRAPS Globally Optimal Format)
-        % mapRiskAverseNonBinarySdp (Non-binary Full- RAPS)
         if cov_prior(1,1) < 150^2
             [flag,dx_plus,cov_ned,b,infor_ned,p.augcost,num_iter,constraint,p.pos_risk,p.raps_penalty] = ...
                 mapRiskAverseNbSlackRtk(p, num_constrain,res_dd,Ht,cov_prior,R_dd,...
@@ -282,14 +281,6 @@ switch p.est_mode
             p.raps_flag = NaN;
             p.raps_num_sat = sum(b);
         end
-        % comp_t = toc;
-        % p.comp_t = comp_t;
-        % tic
-        % [~,~,~,~,~,p.augcost_bcd,~,~,p.pos_risk_bcd] = ...
-        %     mapRiskAverseSlack(num_constrain,res_all,Ht,Pt_minus,R,...
-        %     diag(diag(J_l)),xt_minus,p.td_lambda,length(y_rho));
-        % comp_t = toc;
-        % p.comp_t_bcd = comp_t;
     otherwise
         error('Incorrect state estimation mode configuration');
 end

@@ -1,6 +1,6 @@
 function [flag,x_post,P_post,b,J_out,augcost,num_iter,constraint,risk,penalty_sum] =...
     mapRiskAverseSlack(num_constrain,y,H,P,R,J_l,x_prior)
-% Solves RAPS using B&B integer optimization approach.
+% Soft-constrained Binary DiagRAPS
 % Computes MAP state estimate using the selected measurements.
 % OUTPUT:   x_post   - posterior state vector estimate
 %           by       - measurement selection vector (binary)
@@ -12,7 +12,6 @@ function [flag,x_post,P_post,b,J_out,augcost,num_iter,constraint,risk,penalty_su
 %           r - Measurement Covariance matrix
 %           J_l - Information Matrix Lower Bound
 %           x_prior - prior state vector estimate
-% reference: [1] - PPP_RAPS_Linear.pdf
 
 Jpminus = P^-1;         % state prior info. matrix
 Jrminus = R^-1;         % measurement info. matrix

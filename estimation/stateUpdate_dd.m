@@ -170,18 +170,9 @@ switch p.est_mode
         % mapRiskAverseNonBiSlackMaxJ (Non-binary DiagRAPS)
         % mapRiskAverseSlack (Binary DiagRAPS)
         % mapRiskAverseCvx (Binary DiagRAPS Globally Optimal Format)
-        % mapRiskAverseNonBinarySdp (Non-binary Full- RAPS)
         [flag,dx_plus,cov_ned,b,J_out,p.augcost,num_iter,constraint,p.pos_risk,p.raps_penalty] = ...
             mapRiskAverseNonBiSlackMaxJ(num_constrain,res_dd,Ht,cov_prior,R_dd,...
             diag(diag(J_l)),xt_minus);
-        % comp_t = toc;
-        % p.comp_t = comp_t;
-        % tic
-        % [~,~,~,~,~,p.augcost_bcd,~,~,p.pos_risk_bcd] = ...
-        %     mapRiskAverseSlack(num_constrain,res_all,Ht,Pt_minus,R,...
-        %     diag(diag(J_l)),xt_minus,p.td_lambda,length(y_rho));
-        % comp_t = toc;
-        % p.comp_t_bcd = comp_t;
         cov_plus = Rot_e2g' * cov_ned * Rot_e2g;
         p.num_meas_used = sum(b>0.001);
         b(b>0.01) = 1;

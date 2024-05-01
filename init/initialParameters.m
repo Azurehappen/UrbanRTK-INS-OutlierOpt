@@ -10,8 +10,7 @@ p.mode_rtkfix = 4;
 % load('data/DCB_GLO.mat');
 % p.icb_glo = DCB_P1C1;
 % Setting
-p.inval = 1; % Computation time interval
-p.run_mode=1; %%%%% 0=real-time; 1=post processing
+p.inval = 1; % Computation step size
 p.post_mode = 1;%%%% 0=Standard GNSS, 1 = PPP, 2= DGNSS
 p.iono_map=0; %%%%% 0=USTEC; 1=IGS ionex
 p.ins=1;    %%%%%%% 0=no imu data; 1=use simulated/real imu data
