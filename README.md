@@ -26,4 +26,4 @@ Right panels: near Sailboat Building (multiple skyscrapers surround the site)
 ![td_area](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/7cb2d67f-8353-44cf-a4d1-294541f425fc)
 
 ### Results from RTK-INS-RAPS
-![td_area](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/ae2196aa-fd00-442a-98ac-37274c70b133)
+![raps_area](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/40a5d462-f4a1-412f-9e7b-7319615f263b)
