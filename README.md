@@ -5,7 +5,7 @@ utilizing a Risk-Averse Performance-Specified (RAPS) Optimization approach.
 This repository is designed to provide robust outlier accommodation in urban environments,
 where GNSS signals are often compromised due to obstacles like buildings and bridges.
 
-# RTK-INS-RAPS Framework
+# RAPS-RTK-INS Framework
 ![BlockDiagram_Updated](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/3fbf5612-53aa-4845-ba98-f3f8237f764f)
 
 # Experimental Results
@@ -22,8 +22,8 @@ Left panels: near the Dell Medical School buildings.
 
 Right panels: near Sailboat Building (multiple skyscrapers surround the site)
 
-### Results from the traditional Threshold Decision (TD) method (TD-INS-RAPS)
+### Results from the traditional Threshold Decision (TD) method (TD-RTK-INS)
 ![td_area](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/7cb2d67f-8353-44cf-a4d1-294541f425fc)
 
-### Results from RTK-INS-RAPS
+### Results from RAPS-RTK-INS
 ![raps_area](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/40a5d462-f4a1-412f-9e7b-7319615f263b)
