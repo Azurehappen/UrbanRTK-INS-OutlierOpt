@@ -6,6 +6,9 @@ The diagonal-form RAPS is an efficient (solved in polynomial time complexity) an
 This repository is designed to provide robust outlier accommodation in urban environments,
 where GNSS signals are often compromised due to obstacles like buildings and bridges.
 
+# Paper:
+@_@ Under review
+
 # RAPS-RTK-INS Framework
 ![BlockDiagram_Updated](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/3fbf5612-53aa-4845-ba98-f3f8237f764f)
 
