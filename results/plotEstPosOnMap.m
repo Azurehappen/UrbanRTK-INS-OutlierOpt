@@ -7,7 +7,7 @@ lla = ecef2lla(pos_ecef');
 figure;
 
 % Create a colormap for the errors
-colors = [0 1 0; 0 1 1;0.5 0 0.5; 1 0 0; ]; % green, blue, purple, red
+colors = [0 1 0; 0 1 1;0.5 0 0.5; 1 0 0; ]; % green, cyan, purple, red
 % colormap(colors);
 % Create a color scale based on the error
 c = discretize(pos_error, [0, 1, 3, 20, inf]);
