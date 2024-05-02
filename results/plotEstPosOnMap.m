@@ -28,4 +28,4 @@ hold off
 colormap(colors)
 cb = colorbar;
 cb.Ticks = [1/8, 3/8, 5/8, 7/8]; % Adjust these values as needed
-cb.TickLabels = {'< 1.0m', '1.0m-3m', '3-20m', '>20m'};
+cb.TickLabels = {'< 1 m', '1 - 3 m', '3 - 20 m', '> 20 m'};
