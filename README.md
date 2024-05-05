@@ -11,6 +11,13 @@ where GNSS signals are often compromised due to obstacles like buildings and bri
 # Paper:
 @_@ Under review
 
+# Requirements
+MATLAB (tested in version R2023a, certain toolboxes may be required.)
+Python (tested in Python 3.9. For generating KML file using results/createTrajKml.py)
+
+# Running Setup
+(TBD)
+
 # RAPS-RTK-INS Framework
 ![BlockDiagram_Updated](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/3fbf5612-53aa-4845-ba98-f3f8237f764f)
 
