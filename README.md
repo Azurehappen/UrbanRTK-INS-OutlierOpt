@@ -17,7 +17,15 @@ MATLAB (tested in version R2023a, certain toolboxes may be required.)
 Python (tested in Python 3.9. For generating KML file using results/createTrajKml.py)
 
 # Running Setup
-(TBD)
+The main file to run is titled `MultiGNSS_Main.m`.
+
+The default setting is to perform GNSS-RTK-Aided INS using RAPS for outlier recommendation.
+
+To switch between RTK and DGNSS (code measurement-based): `p.post_mode  = p.mode_rtkfloat;` for RTK float; `p.post_mode  = p.mode_dgnss;` for DGNSS.
+
+To change estimation mode: `p.est_mode = p.raps_ned_est;` for RAPS; `p.est_mode = p.map_est;` for Extended Kalman Filter (EKF);  `p.est_mode = p.td_est;` for Threshold Decision (TD).
+
+The results for EKF-INS-RTK, TD-INS-RTK, and RAPS-INS-RTK were previously computed and saved in `results/`. To see the analysis of the results, run `results/figure_plot_dgnss.m`.
 
 # RAPS-RTK-INS Framework
 ![BlockDiagram_Updated](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/3fbf5612-53aa-4845-ba98-f3f8237f764f)
