@@ -14,7 +14,7 @@ where GNSS signals are often compromised due to obstacles like buildings and bri
 # Requirements
 MATLAB (tested in version R2023a, certain toolboxes may be required.)
 
-Python (tested in Python 3.9. For generating KML file using results/createTrajKml.py)
+Python (tested in Python 3.9. For generating KML file using `results/createTrajKml.py`)
 
 # Running Setup
 The main file to run is titled `MultiGNSS_Main.m`.
