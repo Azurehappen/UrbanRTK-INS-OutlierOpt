@@ -1,5 +1,4 @@
 # Risk-Averse Optimization-based Outlier Accommodation for RTK INS Fusion 
-(This repo was recently released and kept updating)
 
 UrbanRTK-INS-OutlierOpt is an open-source framework that integrates Real-Time Kinematic (RTK) 
 Global Navigation Satellite Systems (GNSS) with Inertial Navigation Systems (INS), 
