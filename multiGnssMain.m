@@ -14,7 +14,7 @@
 %--------------------------------%
 addpath('data')
 addpath('parser')
-addpath('time_compute')
+addpath('timeHelper')
 addpath('eph')
 addpath('pos')
 addpath('corr')
@@ -49,7 +49,7 @@ p.enableGAL  = 1; % Enable GAL: 1 means enable, 0 means close
 p.enableBDS  = 1; % Enable BDS: 1 means enable, 0 means close
 p.L2enable = 0;
 p.save_ins_pos = false;
-p.est_mode = p.raps_ned_est; % ekf_est, map_est, td_est, raps_ned_est
+p.est_mode = p.raps_ned_est; % map_est, td_est, raps_ned_est
 p.state_mode = p.ins_mode; % POS, PVA, INS
 % PPP related settings:
 p.IGS_enable = 1;
@@ -64,76 +64,42 @@ if p.imu_enable == 1
     p.code_noise_fact_a = 300;
     p.code_noise_fact_b = 500;
 end
-output = compute_gnss_ecef(p,eph,obs);
+output = computeNavigationSol(p,eph,obs);
 
-%%
-figure
-scatter(p.t,output.err,'.')
-xtickformat('yyyy-MM-dd HH:mm:ss')
-title('ECEF positioning error')
-xlabel('Local time')
-ylabel('Error, unit: meter');grid on
+%% Plotting
+ind = ~isnan(output.cost);
+hor_err = output.hor_err(ind);
+ver_err = abs(output.ned_err(3,ind));
+meas = output.num_meas_used(ind);
+compt = output_ekf.comp_time(ind);
+horcov = zeros(1,length(ind));
+vercov = sqrt(output_ekf.ned_cov(3,ind));
+for i=1:length(ind)
+    if (output.ned_cov(1,i) == 400)
+        vercov(i) = NaN;
+    else
+        horcov(i) = norm(output.ned_cov(1:2,i));
+    end
+end
+horcov = horcov(ind);
+
+nonNaNCount = length(hor_err);
+fprintf('Hor <= 1.0 m: %.2f%%\n', sum(hor_err <= 1.0) / nonNaNCount * 100);
+fprintf('Hor <= 1.5 m: %.2f%%\n', sum(hor_err <= 1.5) / nonNaNCount * 100);
+fprintf('Ver <= 3.0 m: %.2f%%\n', sum(ver_err <= 3.0) / nonNaNCount * 100);
+fprintf('Hor Mean: %.2f\n', mean(hor_err));
+fprintf('Hor RMS: %.2f\n', rms(hor_err));
+fprintf('Hor Max: %.2f\n', max(hor_err));
+fprintf('Ver Mean: %.2f\n', mean(ver_err));
+fprintf('Ver RMS: %.2f\n', rms(ver_err));
+fprintf('Ver Max: %.2f\n', max(ver_err));
 
 figure
 scatter(p.t,output.hor_err,'.')
 xtickformat('yyyy-MM-dd HH:mm:ss')
-title('Horizontal positioning error')
+title('Horizontal Positioning Error')
 xlabel('Local time')
 ylabel('Error, unit: meter');grid on
-
-figure
-subplot(311)
-scatter(p.t,sqrt(output.ned_cov(1,:)),'.')
-title('NED Pos Covariance')
-ylabel('Cov N, meter');grid on
-subplot(312)
-scatter(p.t,sqrt(output.ned_cov(2,:)),'.')
-ylabel('Cov E, meter');grid on
-subplot(313)
-scatter(p.t,sqrt(output.ned_cov(3,:)),'.')
-ylabel('Cov D, meter');grid on
-title('NED Pos Covariance')
-xlabel('Receiver time using GPS second');
-
-figure
-subplot(311)
-scatter(p.t,sqrt(output.state_cov(1,:)),'.')
-ylabel('Cov x, meter');grid on
-subplot(312)
-scatter(p.t,sqrt(output.state_cov(2,:)),'.')
-ylabel('Cov y, meter');grid on
-subplot(313)
-scatter(p.t,sqrt(output.state_cov(3,:)),'.')
-ylabel('Cov z, meter');grid on
-title('ECEF Pos Covariance')
-xlabel('Receiver time using GPS second');
-
-if p.est_mode == p.raps_ned_est
-    figure
-    scatter(p.t,total - output.raps_num_sat,'.')
-    title('No. of satellites been removed')
-    xlabel('Receiver time using GPS second')
-    ylabel('Distance, unit: meter');grid on
-
-    figure
-    subplot(311)
-    scatter(p.t,sqrt(output.pos_info_ned(1,:)),'.')
-    hold on
-    yline(sqrt(1/p.raps.poshor_cov_spec))
-    ylabel('Infor N, meter');grid on
-    subplot(312)
-    scatter(p.t,sqrt(output.pos_info_ned(2,:)),'.')
-    hold on
-    yline(sqrt(1/p.raps.poshor_cov_spec))
-    ylabel('Infor E, meter');grid on
-    subplot(313)
-    scatter(p.t,sqrt(output.pos_info_ned(3,:)),'.')
-    hold on
-    yline(sqrt(1/p.raps.posver_cov_spec))
-    ylabel('Infor D, meter');grid on
-    title('NED Pos Information')
-    xlabel('Receiver time using GPS second');
-end
 
 % Estimated trajectory
 plotEstPosOnMap(output.pos_ecef, output.hor_err)

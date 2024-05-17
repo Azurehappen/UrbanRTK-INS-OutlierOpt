@@ -1,4 +1,4 @@
-function  log = compute_gnss_ecef(p,eph,obs)
+function  log = computeNavigationSol(p,eph,obs)
 % This function is to implement GNSS positioning with
 % standard mode (without Iono, Trop, Es correction)
 % or PPP mode.

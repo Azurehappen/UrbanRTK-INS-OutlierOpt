@@ -1,5 +1,5 @@
 function [pos_ecef, vel_ned, sow, dtime] = readTexasTxtGt(file_name, lever_arm)
-
+warning off
 % Load data from file
 data = readtable(file_name, 'Delimiter', '\t');
 

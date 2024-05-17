@@ -1,5 +1,5 @@
 function [imu_data, imu_para] = readLordImuData(filename)
-
+warning off
 % Load data from file
 data = readtable(filename, 'Delimiter', ',');
 
