@@ -16,7 +16,7 @@ MATLAB (tested in version R2023a, certain toolboxes, such as [Optimization Toolb
 Python (tested in Python 3.9. For generating KML file using `results/createTrajKml.py`)
 
 # Running Setup
-The main file to run is titled `MultiGNSS_Main.m`.
+The main file to run is titled `multiGnssMain.m`.
 
 The default setting is to perform GNSS-RTK-Aided INS using RAPS for outlier recommendation.
 
