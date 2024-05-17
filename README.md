@@ -45,6 +45,7 @@ Left panels: near the Dell Medical School buildings.
 Right panels: near Sailboat Building (multiple skyscrapers surround the site)
 
 ### Results from the traditional Threshold Decision (TD) method (TD-RTK-INS)
+Some results (red points) present positioning errors over 100 meters.
 ![td_area](https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/7cb2d67f-8353-44cf-a4d1-294541f425fc)
 
 ### Results from RAPS-RTK-INS
