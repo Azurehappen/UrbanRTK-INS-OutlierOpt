@@ -16,7 +16,7 @@ switch(data_num)
         files.code_bias = [];
         files.ustec_data = [];
         % files.data_base = 'data/univOfTexas/SEPT1290base.obs';
-        files.data_base = 'data/univOfTexas/asterx4_base_short.obs';
+        files.data_base = 'data/univOfTexas/asterx4_base_1hz.obs';
         files.base_pos = [-742080.469;-5462030.972;3198339.001];
         % lever_arm = [0.5169;0.3668;0.0930];
         lever_arm = [0;0;0]; % Ground Truth used antenna position.

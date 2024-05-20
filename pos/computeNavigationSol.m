@@ -1,16 +1,11 @@
 function  log = computeNavigationSol(p,eph,obs)
-% This function is to implement GNSS positioning with
-% standard mode (without Iono, Trop, Es correction)
-% or PPP mode.
+% This function is to implement GNSS and INS positioning
 % Output: log is a data struct that store the results.
 %----------------------------------%
 N = length(obs.tr_sow); % The number of positioning points
 log = initOutputLog(p, obs);
 satlog = initConstellationLog(p,log);
-log.ins_est.imu_state = [];
-log.ins_est.imu_cov_ned = [];
-log.ins_est.imu_cov_xyz = [];
-log.ins_est.meas_t_ind = [];
+
 for i = 1:p.inval:N
     % Find the groud truth position
     if ~isnan(p.Grdpos.t(1))
@@ -26,18 +21,21 @@ for i = 1:p.inval:N
         grdpos = p.Grdpos.pos;
     end
 
-    p.i = i; % To debug
+    p.i = i; % % Communicate i into all functions to make it easy to catch epoch with known bugs
+    % get partially corrected GNSS measurements and other info for this epoch 
     cpt = obtainSatInfoStruct(p,satlog,eph,obs,i,log); 
+
+    %% initialize the first time step
     if isempty(log.epoch_t)
         % Rotate the sat pos to a common reference frame
         [estState,~] = initialLsSolver(p,cpt);
-        p.state0(1:3) = estState.pos;
+        p.state0(1:3) = estState.pos; % SPS initial estimate
         cpt = earth_rotation_corr(p,cpt);
         % Check elevation
         cpt = elevaz_check(p,cpt,estState.pos);
         % Open sky condition check
         cpt.is_open_sky = checkOpenSky(cpt.gps_range, cpt.gps_sat_pos, p.state0(1:3));
-        tic
+        % for better GNSS modes, initialize GNSS state: DGNSS, PPP, RTK... 
         if (p.post_mode == p.mode_dgnss || p.post_mode == p.mode_rtkfloat)...
                 && ~isempty(p.eph_b) && ~isempty(p.obs_b)
             [cpt,n] = diff_corr_compute(p,cpt,obs.tr_posix(i));
@@ -66,9 +64,10 @@ for i = 1:p.inval:N
         else
             [estState,res] = weightLsSolver(p,cpt,true);
         end
-        % p.comp_t = toc;
         p.comp_t = NaN;
         p.comp_t_bcd = NaN;
+        % if the above position initiailization succeeded, then initialize
+        % full state vector for INS, PVA, ....
         if ~isempty(estState.pos)
             % Save the initial state for the first GNSS epoch.
             % No lever arm compensation for the initial position, the
@@ -97,7 +96,9 @@ for i = 1:p.inval:N
         if p.state_mode == p.ins_mode
             imu_ind = find(p.imu_data.gps_sec >= log.gps_sec(end) & p.imu_data.gps_sec < obs.tr_sow(i));
             if ~isempty(imu_ind)
-                [p,log.ins_est] = computeGnssEpochPrior(p, log.gps_sec(end), obs.tr_sow(i), imu_ind, log.ins_est);
+                % Time propagation by IMU Integration
+                [p,log.ins_est] = insTimePropagation(p,log.gps_sec(end),log.epoch_t(end),...
+                    obs.tr_sow(i),imu_ind,log.ins_est);
             end
         else
             dt = seconds(obs.datetime(i) - log.epoch_t(end));
@@ -106,9 +107,6 @@ for i = 1:p.inval:N
         end
         log.epoch_t = [log.epoch_t, obs.datetime(i)];
         log.gps_sec = [log.gps_sec, obs.tr_sow(i)];
-        % dt = seconds(obs.datetime(i) - log.epoch_t(end));
-        % % EKF predict
-        % [p.state0, p.state_cov] = ekfPredict(p, p.state0, p.state_cov, dt);
     end
     cpt = earth_rotation_corr(p,cpt);
     % Check elevation
@@ -199,10 +197,5 @@ for i = 1:p.inval:N
             warning('Unsupport positioning option');
     end
 end
-
-
-
-
-
 
 end

@@ -23,10 +23,10 @@ quat = p.imu_para.init_quat;
 % clock biases (m), clock drift (m/s)
 % Error state: position, velocity, attitude errors, acc_bias, gyro_bias
 % clock biases (m), clock drift (m/s)
-state = [estState.pos;estState.vel;quat;0.1*ones(6, 1)];
+state = [estState.pos;estState.vel;quat;0.0*ones(6, 1)];
 % Error covariance
 cov_diag = [p.ekf_para.q_pos*ones(1,3),p.ekf_para.q_vel*ones(1,3),...
-            100*ones(1,3),100*ones(1, 6)];
+            deg2rad(10)^2,deg2rad(10)^2,deg2rad(10)^2,2.5e-3*ones(1, 3),4e-6*ones(1, 3)];
 
 if p.double_diff == false && ~isnan(estState.clock_sys(p.gps.sys_num)) 
     state = [state; estState.clock_sys(p.gps.sys_num)];

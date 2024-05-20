@@ -81,6 +81,7 @@ end
 p.eph_b = eph; p.obs_b = [];
 % Base station data
 if isfield(files, 'data_base')
+    fprintf ('Reading base station data\n');
     % Get observables data (.obs file, RINEX verion 3.03)
     p.obs_b = parserGnssObs(p, files.data_base);
 end

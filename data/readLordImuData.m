@@ -6,10 +6,12 @@ data = readtable(filename, 'Delimiter', ',');
 % Initialize arrays
 imu_data.gps_week = data.x_Week';
 imu_data.gps_sec = (data.wholesec+data.fracsec)';
-imu_data.acc = [data.acc1';data.acc2';data.acc3'];
-imu_data.gyro = [data.gyro1';data.gyro2';data.gyro3'];
+imu_data.acc = [data.acc1';data.acc2';data.acc3']; % m/s^2
+imu_data.gyro = [data.gyro1';data.gyro2';data.gyro3']; % rad/s
 
-lat = deg2rad(30.272141);
+init_pos_ecef = [-741204.520;-5462376.740;3197933.705];
+lla = ecef2lla(init_pos_ecef', 'WGS84');
+lat = lla(1);
 g_h = 9.7803267715*(1+0.001931851353*(sin(lat))^2) /...
     sqrt(1-0.0066943800229*(sin(lat))^2);  %navigation frame: NED, unit: m/s^2
 imu_para.g_ned = [0;0;g_h];
@@ -41,11 +43,8 @@ imu_para.gyro_noise = fact_noise*(0.01*pi/180)^2; % gyro noise, unit: (rad/sec/s
 % imu_para.gyro_bias =  gyro_ss_std^2*2*abs(imu_para.gyro_lam); % Eqn. 4.102 in Farrell's book
 imu_para.gyro_bias = fact_noise*gyro_ss_std^2;
 
-init_pos = [-741204.52;-5462376.740;3197933.7];
-lla = ecef2lla(init_pos', 'WGS84');
 R_e2n=computeRotForEcefToNed(lla');
 init_vel = [-0.246;-0.527;-0.0204]; % NED
-% R_b2n = euler_R_body2enu_gt(deg2rad(243.783401),deg2rad(1.75),deg2rad(4.69));
 imu_para.init_yaw = -atan2(init_vel(2),init_vel(1));
 R_b2n = eulerToRot(0,0,imu_para.init_yaw);
 R_e2b = R_b2n'*R_e2n;

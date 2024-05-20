@@ -27,43 +27,41 @@ data_num = 4;
 [files, p] = dataPathLoader(data_num);
 %--------------------------------%
 
-% Initialize parameters
-if exist(files.preload,'file')==2 % Check if the data already been parsed
-    load(files.preload);
-else
-    [p, eph, obs] = readDataFiles(p,files);
-    %--------------------------------%
-    [p, obs] = loadDataAndCorr(p, files, eph, obs);
-    save(files.preload, 'p', 'eph', 'obs');
-end
+% Read data
+[p, eph, obs] = readDataFiles(p,files);
+[p, obs] = loadDataAndCorr(p, files, eph, obs);
 %%
 p = initialParameters(p, files, eph);
 p.post_mode  = p.mode_rtkfloat; % sps=Standard GNSS, ppp = PPP, dgnss = DGNSS
-p.imu_enable = 1;
-p.double_diff = true;
-p.elev_mark_rad  = deg2rad(10);
-% To use Multi-GNSS and DGNSS, GPS have to be enabled.
-p.enableGPS  = 1; % Enable GPS: 1 means enable, 0 means close
-p.enableGLO  = 1; % Enable GLO: 1 means enable, 0 means close
-p.enableGAL  = 1; % Enable GAL: 1 means enable, 0 means close
-p.enableBDS  = 1; % Enable BDS: 1 means enable, 0 means close
-p.L2enable = 0;
-p.save_ins_pos = false;
-p.est_mode = p.raps_ned_est; % map_est, td_est, raps_ned_est
-p.state_mode = p.ins_mode; % POS, PVA, INS
-% PPP related settings:
-p.IGS_enable = 1;
-p.tec_tmax = 15;
-p.tec_tmin = 0;
-p.enable_vtec = true;
 
-if p.imu_enable == 1
-    p.imu_data = files.imu_data;
-    p.imu_para = files.imu_para;
-    p.sigmaSquare_dop = 1^2;
-    p.code_noise_fact_a = 300;
-    p.code_noise_fact_b = 500;
+p.double_diff = true; % true to chose double-difference
+p.elev_mark_rad  = deg2rad(10); % Set elevation cut-off
+% To use Multi-GNSS and DGNSS, GPS have to be enabled.
+p.enableGPS  = true; % Enable GPS
+p.enableGLO  = true; % Enable GLO
+p.enableGAL  = true; % Enable GAL
+p.enableBDS  = true; % Enable BDS
+
+if p.post_mode == p.mode_sps
+    p.L2enable = false;        % true to enable L2 in SPS for slant iono estimation
+    p.bia_type = true;         % true to disable PPP code bias
+elseif p.post_mode == p.mode_ppp
+    p.IGS_enable = 1;       % true to enable clock and orbit corrections from IGS
+    p.tec_tmax = 15;        % Max latency of USTEC delay for use in PPP
+    p.tec_tmin = 0;         % Min latency of USTEC delay for use in PPP
+    p.enable_vtec = true;   % uses SSR VTEC message for Iono in PPP
 end
+p.state_mode = p.ins_mode; % (pos, pva, ins)_mode
+if p.state_mode == p.ins_mode
+    p.save_ins_pos = false;       % save INS pos to GNSS log if GNSS soln fails 
+    p.save_ins_states = false;     % save INS state at INS computation times
+    p.imu_data = files.imu_data;  % save IMU data to the data structure p
+    p.imu_para = files.imu_para;  % save parameters to the data structure p (see readDataFiles)
+elseif p.state_mode == p.pos_mode
+    p.ekf_para.q_pos = 200^2;     % Pos driving noise cov for pos KF
+end
+p.est_mode = p.raps_ned_est;           % ekf_est, map_est, td_est, raps_ned_est
+
 output = computeNavigationSol(p,eph,obs);
 
 %% Plotting
@@ -71,9 +69,9 @@ ind = ~isnan(output.cost);
 hor_err = output.hor_err(ind);
 ver_err = abs(output.ned_err(3,ind));
 meas = output.num_meas_used(ind);
-compt = output_ekf.comp_time(ind);
+compt = output.comp_time(ind);
 horcov = zeros(1,length(ind));
-vercov = sqrt(output_ekf.ned_cov(3,ind));
+vercov = sqrt(output.ned_cov(3,ind));
 for i=1:length(ind)
     if (output.ned_cov(1,i) == 400)
         vercov(i) = NaN;
