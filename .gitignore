@@ -7,3 +7,9 @@
 *.blg
 *.acr
 *.asv
+data/univOfTexas/asterx4_base_1hz.obs
+data/univOfTexas/asterx4_rover.obs
+data/univOfTexas/bosch_imu.log
+data/univOfTexas/brdm1290.19p
+data/univOfTexas/ground_truth.log
+data/univOfTexas/lord_imu.log
