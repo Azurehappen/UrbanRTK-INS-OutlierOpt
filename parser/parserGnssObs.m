@@ -39,8 +39,7 @@ function obs = parserGnssObs(p, obspath)
 %           see RINEX 3.03 table A2
 %
 % Author: Azurehappen
-
-fprintf ('Loading observations...\n \n');
+fprintf ('Loading observations...\n');
 obsfile = fopen(obspath);
 %-----------------------------------%
 % read header
@@ -103,6 +102,11 @@ while (true)
                     i = length(bdstype);
                 end
         end
+    elseif contains(line,"APPROX POSITION XYZ")
+        aprox_pos_str = strsplit(line(1:58));
+        aprox_pos_str(cellfun(@isempty,aprox_pos_str))=[]; % Delete empty cite
+        aprox_pos = str2double(aprox_pos_str');
+
     elseif contains(line, 'TIME OF FIRST OBS')
         start_t = sscanf(line,'%f');
     elseif contains(line, 'TIME OF LAST OBS')
@@ -114,6 +118,7 @@ end
 No_obs = round(seconds(datetime(end_t')-datetime(start_t')))+10;
 % Initialization
 obs = initObsStruct(p, No_obs);
+obs.aprox_pos = aprox_pos;
 %-----------------------------------%
 % read observables
 count = 0;
@@ -348,7 +353,6 @@ while ~feof(obsfile)
                                     idx = idx + len;
                                 end
                         end
-                        %                         [obs,idx]=readgal(galtype{i},prn,count,obs,idx,line,len);
                         idx = idx + min(gap,length(line)-idx);
                     end
                 end
@@ -405,7 +409,6 @@ while ~feof(obsfile)
                                     idx = idx + len;
                                 end
                         end
-                        %                         [obs,idx]=readbds(bdstype{i},prn,count,obs,idx,line,len);
                         idx = idx + min(gap,length(line)-idx);
                     end
                 end
@@ -414,8 +417,6 @@ while ~feof(obsfile)
 end
 obs = simplyobs(obs,count);
 fclose(obsfile);
-%%Save to MAT file
-% save ([fileName,'_obs.mat'], 'obs');
 %----------------------------------------------------%
 fprintf ('\nObservables loaded correctly\n \n');
 
