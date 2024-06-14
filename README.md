@@ -7,8 +7,13 @@ The diagonal-form RAPS is an efficient (solved in polynomial time complexity) an
 This repository is designed to provide robust outlier accommodation in urban environments,
 where GNSS signals are often compromised due to obstacles like buildings and bridges.
 
-# Paper:
+# Paper
 @_@ Under review
+
+# Tutorials in this repo
+1. IMU nonlinear time propagation using Quaternion. see `imu/insTimePropagation.m`.
+2. Parser to Observation and Ephemeris RINEX files, see `parser/parserGnssObs.m` and `parser/parserGnssEph.m`. For more information refer to [RINEX 3.03](https://files.igs.org/pub/data/format/rinex303.pdf)
+3. Implementation of Precise Point Positioning (PPP) corrections, such as the IGGtrop model (`corr/IGGtropSH_bl.m`, provided by IGGtrop paper author Dr. Wei Li, liwei@whigg.ac.cn) and SSR VTEC model (`corr/ssrVtecComputation.m`)
 
 # Requirements
 MATLAB (tested in version R2023a, certain toolboxes, such as [Optimization Toolbox](https://www.mathworks.com/help/optim/index.html?s_tid=CRUX_topnav), may be required.)
