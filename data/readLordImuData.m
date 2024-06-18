@@ -8,6 +8,7 @@ imu_data.gps_week = data.x_Week';
 imu_data.gps_sec = (data.wholesec+data.fracsec)';
 imu_data.acc = [data.acc1';data.acc2';data.acc3']; % m/s^2
 imu_data.gyro = [data.gyro1';data.gyro2';data.gyro3']; % rad/s
+imu_para.R_i2b = eye(3,3); % change it if the IMU was place at inverse direction of z-axis.
 
 init_pos_ecef = [-741204.520;-5462376.740;3197933.705];
 lla = ecef2lla(init_pos_ecef', 'WGS84');
@@ -29,7 +30,7 @@ imu_para.freq = 100; % Hz
 % imu_para.gyro_bias = gyro_offset^2*fact_noise;
 
 %% Some Paremeter informaiton from TEX-CUP author.
-fact_noise = 50.00*10^4;
+fact_noise = 1;
 acc_ss_std = 0.5*g_h/1e3; % Accelerometer bias steady-state standard deviation: milli-g -> m/s^2
 taua_ = 100; % Accelerometer bias time constant, in seconds
 taug_ = 100; % Gyro bias time constant, in seconds

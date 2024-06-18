@@ -23,11 +23,11 @@ switch(data_num)
         [files.Grdpos.pos, files.Grdpos.vel, files.Grdpos.t,files.Grdpos.datet]...
             = readTexasTxtGt('data/univOfTexas/ground_truth.log', lever_arm);
         % Bosch IMU
-        % [files.imu_data, files.imu_para]= readImuData('data/univOfTexas/bosch_imu.log');
-        % files.imu_lever_arm = [0.411,-0.160,0.123]';
+        [files.imu_data, files.imu_para]= readBoschImuData('data/univOfTexas/bosch_imu.log');
+        files.imu_lever_arm = [0.411,-0.160,0.123]';
         % Lord IMU
-        [files.imu_data, files.imu_para]= readLordImuData('data/univOfTexas/lord_imu.log');
-        files.imu_lever_arm = [-0.461,-0.125,-0.119]';
+        % [files.imu_data, files.imu_para]= readLordImuData('data/univOfTexas/lord_imu.log');
+        % files.imu_lever_arm = [-0.461,-0.125,-0.119]';
         files.preload = 'data/univOfTexas/preload.mat';
      case 5
         % PPP application
