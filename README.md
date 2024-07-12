@@ -8,7 +8,8 @@ This repository is designed to provide robust outlier accommodation in urban env
 where GNSS signals are often compromised due to obstacles like buildings and bridges.
 
 # Paper
-@_@ Under review
+W. Hu, Y. Hu, and J. A. Farrell. "Optimization-Based Outlier Accommodation for Tightly Coupled RTK-Aided Inertial Navigation System in Urban Environments". Accepted by IEEE Intl. Conf. on Intelligent Transportation Systems, Edmonton, Canada, 2024.
+
 
 # Tutorials in this repo
 1. IMU nonlinear time propagation using Quaternion. see `imu/insTimePropagation.m`.
