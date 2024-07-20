@@ -8,7 +8,7 @@ imu_data.gps_week = data.x_Week';
 imu_data.gps_sec = (data.wholesec+data.fracsec)';
 imu_data.acc = [data.acc1';data.acc2';data.acc3'];
 imu_data.gyro = [data.gyro1';data.gyro2';data.gyro3'];
-imu_para.R_i2b = diag([1,-1,-1]); % The IMU was place at inverse direction of z-axis.
+imu_para.R_i2b = diag([1,-1,-1]); % The IMU was place for z-axis up.
 
 init_pos_ecef = [-741204.520;-5462376.740;3197933.705];
 lla = ecef2lla(init_pos_ecef', 'WGS84');
