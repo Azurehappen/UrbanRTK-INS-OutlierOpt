@@ -60,8 +60,8 @@ for i = 1:length(time)-1
     R_e2b = convertQuatToRot(q_e2b);
     R_b2e = R_e2b';
 
-    F_b = acc_meas(:,i)-bias_a;     % specific force in body
-    w_ib_b = gyro_meas(:,i)-bias_g; % angular rate in body
+    F_b = p.imu_para.R_i2b*acc_meas(:,i)-bias_a;     % specific force in body
+    w_ib_b = p.imu_para.R_i2b*gyro_meas(:,i)-bias_g; % angular rate in body
 
     % integrate position state
     state(1:3,1) = state(1:3,1) + v_e*dt;
@@ -105,10 +105,10 @@ for i = 1:length(time)-1
     % attitude error state row
     Frr = -p.Omega_iee_mat;
     Frg = -R_b2e;
-    % Faa = p.imu_para.acc_lam*I3x3;
-    % Fgg = p.imu_para.gyro_lam*I3x3;
-    Faa = 0*I3x3;
-    Fgg = 0*I3x3;
+    Faa = p.imu_para.acc_lam*I3x3;
+    Fgg = p.imu_para.gyro_lam*I3x3;
+    % Faa = 0*I3x3;
+    % Fgg = 0*I3x3;
 
     if p.double_diff == false
         F = [ Z3x3 Fpv  Z3x3 Z3x3 Z3x3 Z3xCLK Z3x1;  % p - pos error in ecef

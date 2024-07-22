@@ -198,12 +198,12 @@ p.raps.clk_cov_spec = (500^2)*0.05;
 p.raps.dclk_cov_spec = (50^2)*0.05;
 p.raps.isb_cov_spec = (10^2)*0.05;
 p.raps.va_cov_spec = (10^2)*0.05; 
-% Horizontal: alpha = 1.5, beta = 0.32; 
-% Vertical: alpha = 5, beta = 0.4.
-p.raps.poshor_cov_spec = 0.72; % 1.5^2*0.32
-p.raps.posver_cov_spec = 2.88; % 3^2*0.32
-p.raps.velhor_cov_spec = 0.72/2;
-p.raps.velver_cov_spec = 2.88/2;
+
+prob = 0.05;
+p.raps.poshor_cov_spec = 1.0^2 * prob; % 1.5^2*0.32
+p.raps.posver_cov_spec = 3^2 * prob; % 3^2*0.32
+p.raps.velhor_cov_spec = p.raps.poshor_cov_spec / 2;
+p.raps.velver_cov_spec = p.raps.posver_cov_spec / 2;
 p.raps_penalty = NaN;
 p.check_prior = false;
 

@@ -91,7 +91,7 @@ log.res = [log.res_GPS;log.res_GAL;log.res_GLO;log.res_BDS];
 log.elev = [log.elev_GPS;log.elev_GAL;log.elev_GLO;log.elev_BDS];
 
 log.ins_est = struct;
-if p.save_ins_states == true
+if p.state_mode == p.ins_mode && p.save_ins_states == true
     log.ins_est.imu_state = NaN(numOfState+1,length(p.imu_data.gps_sec));
     log.ins_est.imu_cov_ned = NaN(numOfState,length(p.imu_data.gps_sec));
     log.ins_est.imu_cov_xyz = NaN(numOfState,length(p.imu_data.gps_sec));

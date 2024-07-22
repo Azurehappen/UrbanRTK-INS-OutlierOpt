@@ -63,7 +63,7 @@ if p.post_mode == p.mode_rtkfloat
         % p.i
         % warning('Unconfident number of sat to perform RTK, skip this epoch');
         estState.pos = [];
-        if p.save_ins_pos == true && p.state_mode == p.ins_mode
+        if p.state_mode == p.ins_mode && p.save_ins_pos == true
             R_e2b_plus = convertQuatToRot(p.state0(7:10));
             lever_arm_e = R_e2b_plus' * p.imu_lever_arm;  % Lever arm in ECEF frame.
             estState.pos = p.state0(1:3) + lever_arm_e;
