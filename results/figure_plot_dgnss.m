@@ -23,11 +23,7 @@ ekf_gdop = output_ekf.GDOP(ind);
 ekf_horcov = zeros(1,length(ind));
 ekf_vercov = sqrt(output_ekf.ned_cov(3,ind));
 for i=1:length(ind)
-    if (output_ekf.ned_cov(1,i) == 400)
-        ekf_vercov(i) = NaN;
-    else
-        ekf_horcov(i) = norm(output_ekf.ned_cov(1:2,i));
-    end
+    ekf_horcov(i) = norm(output_ekf.ned_cov(1:2,i));
 end
 ekf_horcov = ekf_horcov(ind);
 
@@ -40,11 +36,7 @@ td_gdop = output_td.GDOP(ind);
 td_horcov = zeros(1,length(ind));
 td_vercov = sqrt(output_td.ned_cov(3,ind));
 for i=1:length(ind)
-    if (output_ekf.ned_cov(1,i) == 400)
-        td_vercov(i) = NaN;
-    else
-        td_horcov(i) = norm(output_td.ned_cov(1:2,i));
-    end
+    td_horcov(i) = norm(output_td.ned_cov(1:2,i));
 end
 td_horcov = td_horcov(ind);
 
@@ -58,11 +50,7 @@ rapspva_gdop = output_rapspva.GDOP(ind);
 rapspva_horcov = zeros(1,length(ind));
 rapspva_vercov = sqrt(output_rapspva.ned_cov(3,ind));
 for i=1:length(ind)
-    if (output_rapspva.ned_cov(1,i) == 400)
-        rapspva_vercov(i) = NaN;
-    else
-        rapspva_horcov(i) = norm(output_rapspva.ned_cov(1:2,i));
-    end
+    rapspva_horcov(i) = norm(output_rapspva.ned_cov(1:2,i));
 end
 rapspva_horcov = rapspva_horcov(ind);
 
@@ -137,3 +125,52 @@ blue = [0, 0.4470, 0.7410];
 red = [0.6350, 0.0780, 0.1840];
 green = [0.4660, 0.6740, 0.1880];
 orange = [0.9290, 0.6940, 0.1250];
+
+ekf_color = green;
+td_color = orange;
+raps_color = blue;
+
+figure(7)
+tiledlayout(1,2, 'TileSpacing', 'compact', 'Padding', 'compact');
+nexttile
+plot(ekf_horcov, ekf_hor_err, '.', 'Color', ekf_color)
+hold on
+plot(td_horcov, td_hor_err, '.', 'Color', td_color)
+plot(raps_horcov, raps_hor_err, '.', 'Color', raps_color)
+plot([0.2,100],[0.2,100], 'Color', 'k')
+xline(1.5)
+legend('EKF-INS-RTK', 'TD-INS-RTK', 'RAPS-INS-RTK', 'Consistent Line')
+hold off
+grid on
+xlabel('HorSTD, meter');
+ylabel('HE, meter');
+xlim([0.3,100])
+ylim([0.01,200])
+set(gca, 'XScale', 'log')
+set(gca, 'YScale', 'log')
+
+nexttile
+plot(ekf_vercov, ekf_ver_err, '.', 'Color', ekf_color)
+hold on
+plot(td_vercov, td_ver_err, '.', 'Color', td_color)
+plot(raps_vercov, raps_ver_err, '.', 'Color', raps_color)
+plot([1,50],[1,50], 'Color', 'k')
+xline(3.0)
+legend('EKF-INS-RTK', 'TD-INS-RTK', 'RAPS-INS-RTK', 'Consistent Line')
+hold off
+grid on
+xlabel('VerSTD, meter');
+ylabel('VE, meter');
+xlim([0,15])
+ylim([0.01,300])
+set(gca, 'XScale', 'log')
+set(gca, 'YScale', 'log')
+
+disp('Horizontal')
+fprintf('EKF Conservative Rate: %.2f%%\n', sum(ekf_hor_err <= ekf_horcov) / length(ekf_hor_err) * 100);
+fprintf('TD Conservative Rate: %.2f%%\n', sum(td_hor_err <= td_horcov) / length(td_hor_err) * 100);
+fprintf('RAPS Binary Conservative Rate: %.2f%%\n', sum(raps_hor_err <= raps_horcov) / length(raps_hor_err) * 100);
+disp('Vertical')
+fprintf('EKF Conservative Rate: %.2f%%\n', sum(ekf_ver_err <= ekf_vercov) / length(ekf_ver_err) * 100);
+fprintf('TD Conservative Rate: %.2f%%\n', sum(td_ver_err <= td_vercov) / length(td_ver_err) * 100);
+fprintf('RAPS Binary Conservative Rate: %.2f%%\n', sum(raps_ver_err <= raps_vercov) / length(raps_ver_err) * 100);
