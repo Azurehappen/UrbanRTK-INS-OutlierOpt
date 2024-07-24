@@ -8,7 +8,7 @@ This repository is designed to provide robust outlier accommodation in urban env
 where GNSS signals are often compromised due to obstacles like buildings and bridges.
 
 # Paper
-W. Hu, Y. Hu, M. Stas, and J. A. Farrell. "Optimization-Based Outlier Accommodation for Tightly Coupled RTK-Aided Inertial Navigation System in Urban Environments". Accepted by IEEE Intl. Conf. on Intelligent Transportation Systems, Edmonton, Canada, 2024.
+W. Hu, Y. Hu, M. Stas, and J. A. Farrell. "Optimization-Based Outlier Accommodation for Tightly Coupled RTK-Aided Inertial Navigation Systems in Urban Environments". Accepted by IEEE Intl. Conf. on Intelligent Transportation Systems, Edmonton, Canada, 2024.
 
 
 # Tutorials in this repo
