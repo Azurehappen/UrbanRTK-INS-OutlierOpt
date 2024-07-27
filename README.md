@@ -71,12 +71,12 @@ Right panels: near Sailboat Building (multiple skyscrapers surround the site)
 ### Results from the traditional Threshold Decision (TD) method (TD-RTK-INS)
 Some results (red points) present positioning errors over 100 meters.
 <p align="center">
-  <img width="600" alt="td_area" src="https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/7cb2d67f-8353-44cf-a4d1-294541f425fc">
+  <img width="600" alt="td_area" src="https://github.com/user-attachments/assets/bca1c80e-b9f1-4a5e-a604-554ef7de9222">
 </p>
 
 ### Results from RAPS-RTK-INS
 <p align="center">
-  <img width="600" alt="raps_area" src="https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/40a5d462-f4a1-412f-9e7b-7319615f263b">
+  <img width="600" alt="raps_area" src="https://github.com/user-attachments/assets/2a4ffb09-a503-4c65-981a-032b5c1c7dcb">
 </p>
 
 3D View from Google Earth (For the right panel above)
@@ -86,5 +86,5 @@ Some results (red points) present positioning errors over 100 meters.
 
 ## Full trajectory from RTK-INS-RAPS
 <p align="center">
-  <img width="600" alt="full_traj" src="https://github.com/Azurehappen/UrbanRTK-INS-OutlierOpt/assets/45580484/2dfd3020-187d-4b78-928b-36fad6dad2c1">
+  <img width="600" alt="full_traj" src="https://github.com/user-attachments/assets/89c270fb-4acd-490e-b66e-1a126b4f1980">
 </p>
