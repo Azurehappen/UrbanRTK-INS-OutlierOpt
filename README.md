@@ -71,12 +71,12 @@ Right panels: near Sailboat Building (multiple skyscrapers surround the site)
 ### Results from the traditional Threshold Decision (TD) method (TD-RTK-INS)
 Some results (red points) present positioning errors over 100 meters.
 <p align="center">
-  <img width="600" alt="td_area" src="https://github.com/user-attachments/assets/bca1c80e-b9f1-4a5e-a604-554ef7de9222">
+  <img width="600" alt="td_area" src="https://github.com/user-attachments/assets/66dca034-ae4b-4c5e-b1b9-eeebe1fb1152">
 </p>
 
 ### Results from RAPS-RTK-INS
 <p align="center">
-  <img width="600" alt="raps_area" src="https://github.com/user-attachments/assets/2a4ffb09-a503-4c65-981a-032b5c1c7dcb">
+  <img width="600" alt="raps_area" src="https://github.com/user-attachments/assets/f848daf4-f8b7-4e28-90f9-0f9237a43d9c">
 </p>
 
 3D View from Google Earth (For the right panel above)
