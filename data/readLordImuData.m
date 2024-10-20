@@ -46,8 +46,9 @@ imu_para.gyro_bias = fact_noise*gyro_ss_std^2;
 
 R_e2n=computeRotForEcefToNed(lla');
 init_vel = [-0.246;-0.527;-0.0204]; % NED
-imu_para.init_yaw = -atan2(init_vel(2),init_vel(1));
-R_b2n = eulerToRot(0,0,imu_para.init_yaw);
-R_e2b = R_b2n'*R_e2n;
+% The y-axis of IMU point to the heading of the vehicle.
+imu_para.init_yaw = atan2(init_vel(1),init_vel(2));
+R_n2b = eulerToRot(0,0,-imu_para.init_yaw);
+R_e2b = R_n2b*R_e2n;
 imu_para.init_quat = R2quat(R_e2b);
 end

@@ -193,6 +193,19 @@ p.ekf_para.q_clkDrift = 5.0^2;
 p.td_lambda = 2;
 
 %---------------------------------------%
+% IAR parameters
+p.enable_partial_fix = true;
+p.enable_bootstrapped = true;
+p.bootstrapped_threshold = 0.85;
+p.partial_threshold = 0.7;
+p.ratiotest_threshold = 3.0;
+
+p.iar_bootstrapped = 1;
+p.iar_ratio_test = 2;
+p.iar_partial_fix = 3;
+p.iar_validation = p.iar_partial_fix;
+
+%---------------------------------------%
 % RAPS parameters
 p.raps.clk_cov_spec = (500^2)*0.05;
 p.raps.dclk_cov_spec = (50^2)*0.05;

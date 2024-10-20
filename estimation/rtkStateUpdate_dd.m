@@ -163,25 +163,23 @@ end
 Rt_rho = T_dd * R_rho * T_dd';
 Rt_phi = T_dd * R_phi * T_dd';
 Rt_dop = T_dd * R_dop * T_dd';
-% dd_amb = (dd_phi - dd_rho)./lambda;
 dd_amb = (dd_phi - dd_rho);
+dd_amb_int = dd_amb./lambda;
 % cov_dd_amb = T_dd * diag((diag(R_phi)+diag(R_rho))./(cpt.wavelength.^2)) * T_dd';
-cov_dd_amb = T_dd * diag((diag(R_phi)+diag(R_rho))) * T_dd'+100^2;
-errx_minus(length(errx_minus)-length(lambda)+1:end) = dd_amb;
+% cov_dd_amb = T_dd * diag((diag(R_phi)+diag(R_rho))) * T_dd'+100^2;
+cov_dd_amb = T_dd * 2*50^2*eye(size(R_phi)) * T_dd';
+errx_minus(length(errx_minus)-length(lambda)+1:end) = dd_amb_int;
 cov_minus = blkdiag(p.state_cov, cov_dd_amb);
 R_dd = blkdiag(Rt_rho,Rt_phi,Rt_dop);
 % R_dd = diag(diag(R_dd));
 H_rho_dd = T_dd * H_rho;
 H_phi_dd = T_dd * H_phi;
 H_dop_dd = T_dd * H_dop;
-H_phi_dd(:, length(errx_minus)-length(lambda)+1:end) = diag(ones(length(lambda),1));
+H_phi_dd(:, length(errx_minus)-length(lambda)+1:end) = diag(lambda);
 H_dd = [H_rho_dd;H_phi_dd;H_dop_dd];
 % measurement residual (res_rho - amb)
 res_dd = res - H_dd(:,10:end)*errx_minus(10:end);
 
-if p.i == 2519
-    ii=1;
-end
 switch p.est_mode
     case p.ekf_est
         [x_plus,dx_plus,cov_plus,p.infor_ned,p.augcost] = ekfUpdate(x_minus, ...
@@ -200,6 +198,7 @@ switch p.est_mode
             H_dd,R_dd,Rot_e2g);
         p.num_meas_used = length(res_dd)/3;
     case p.td_est
+        tic
         [flag_rapid,p.num_sats_window] = checkRapidNumSatChange(p.num_sats_window, sum(cpt.num_sv~=0));
         if (p.state_mode == p.pva_mode || p.state_mode == p.ins_mode) && flag_rapid == true
             % p.state_cov = zeros(size(p.state_cov));
@@ -214,7 +213,7 @@ switch p.est_mode
         H_dd = H_dd * Rot_e2g';
         cov_minus = Rot_e2g * cov_minus * Rot_e2g';
         [x_plus,dx_plus,cov_plus,infor_ned,p.augcost] = ...
-            mapUpdate(p, b, x_minus, errx_minus,cov_minus, res_dd, H_dd, R_dd, Rot_e2g);
+            mapUpdate(p, b, [x_minus;dd_amb_int], errx_minus,cov_minus, res_dd, H_dd, R_dd, Rot_e2g);
         p.num_meas_used = sum(b);
     case p.raps_ned_est
         % Solve in NED frame
@@ -290,7 +289,7 @@ p.comp_t = comp_t;
 
 num_user_states = p.modeToNumUserErrStates(p.state_mode);
 p.error_state = dx_plus(1:num_user_states);
-p.state0 = x_plus;
+p.state0 = x_plus(1:num_user_states+1);
 p.state_cov = cov_plus(1:num_user_states,1:num_user_states);
 p.infor_ned = infor_ned(1:num_user_states,1:num_user_states);
 % HH = [H_os(1:length(y_rho),1:3)];

@@ -36,9 +36,10 @@ if p.state_mode == p.ins_mode
     end
     x_plus(7:10) = quatInv(quatMult(q_e,quatInv(x_prior(7:10,1))));
     % Correct other states
-    x_plus(11:end) = x_prior(11:end) + dx(10:length(x_prior)-1);
+    x_plus(11:end) = x_prior(11:end) + dx(10:end);
 else
-    x_plus = x_prior + Rot_e2g(1:9,1:9)'*dx(1:9);
+    x_plus(1:9) = x_prior(1:9) + Rot_e2g(1:9,1:9)'*dx(1:9);
+    x_plus(10:end) = x_prior(10:end) + dx(10:end);
 end
 error_x_plus = dx;
 PhiH = Phiby * H;

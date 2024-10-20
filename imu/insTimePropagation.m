@@ -40,6 +40,8 @@ if p.save_ins_states == true
     ins_est.index = ins_est.index + 1;
 end
 
+Phi_full = eye(15);
+Qd_full = zeros(15);
 for i = 1:length(time)-1
     dt = time(i+1) - time(i);
 
@@ -152,7 +154,9 @@ for i = 1:length(time)-1
 
     error_state = Phi*error_state;
     error_cov = Phi*error_cov*Phi'+Qd;
-
+    
+    Phi_full = Phi*Phi_full;
+    Qd_full = Phi*Qd_full*Phi' + Qd;
     if p.save_ins_states == true
         ins_est.imu_state(:,ins_est.index) = state;
         ins_est.imu_cov_xyz(:,ins_est.index) = diag(error_cov);
@@ -168,6 +172,8 @@ for i = 1:length(time)-1
         ins_est.index = ins_est.index + 1;
     end
 end
+
+% cov_temp = Phi_full*p.state_cov*Phi_full' + Qd_full;
 %
 if p.save_ins_states == true
     % To remove the last state as it will be updated.

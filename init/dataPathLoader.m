@@ -17,17 +17,18 @@ switch(data_num)
         files.ustec_data = [];
         % files.data_base = 'data/univOfTexas/SEPT1290base.obs';
         files.data_base = 'data/univOfTexas/asterx4_base_1hz.obs';
-        files.base_pos = [-742080.469;-5462030.972;3198339.001];
-        % lever_arm = [0.5169;0.3668;0.0930];
+        % files.base_pos = [-742080.469;-5462030.972;3198339.001];
+        files.base_pos = [-742080.4125;-5462031.7412;3198339.6909];
+        % lever_arm = convlength([20.3504,14.44,3.6624],'in','m')';
         lever_arm = [0;0;0]; % Ground Truth used antenna position.
         [files.Grdpos.pos, files.Grdpos.vel, files.Grdpos.t,files.Grdpos.datet]...
             = readTexasTxtGt('data/univOfTexas/ground_truth.log', lever_arm);
         % Bosch IMU (Smart phone grade)
-        [files.imu_data, files.imu_para]= readBoschImuData('data/univOfTexas/bosch_imu.log');
-        files.imu_lever_arm = files.imu_para.R_i2b*[0.411,-0.160,0.123]';
+        [files.imu_data, files.imu_para] = readBoschImuData('data/univOfTexas/bosch_imu.log');
+        files.imu_lever_arm = files.imu_para.R_i2b*convlength([16.1811,-6.2992,4.8425],'in','m')';
         % Lord IMU (Industy grade)
         % [files.imu_data, files.imu_para]= readLordImuData('data/univOfTexas/lord_imu.log');
-        % files.imu_lever_arm = [-0.461,-0.125,-0.119]';
+        % files.imu_lever_arm = convlength([-0.461,-0.125,-0.119],'in','m')';
         files.preload = 'data/univOfTexas/preload.mat';
      case 5
         % PPP application

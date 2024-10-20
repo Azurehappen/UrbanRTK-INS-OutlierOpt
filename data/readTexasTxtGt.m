@@ -43,6 +43,6 @@ end
         R3 = [cos(roll),0,sin(roll);
               0,1,0;
               -sin(roll),0,cos(roll)];
-        r = R1*R2*R3;
+        r = R1'*R2'*R3';
     end
 end

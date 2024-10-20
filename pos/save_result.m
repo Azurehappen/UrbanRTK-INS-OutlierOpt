@@ -1,15 +1,14 @@
 function log = save_result(p,cpt,log,i,estState,res,grd,epoch_t,reset_flag)
 
-% log.epoch_t = [log.epoch_t, epoch_t];
-log.pos_ecef(:,i) = estState.pos;
 %------------------------%
 % [pos_llh,~,~]=ecef2llh_iter(estState.pos);
 % R_e2g=ll2R(pos_llh); % rotation matrix from ecef 2 geodetic frame
 % err_pos = grdpos - estState.pos;
 % ned_err=R_e2g*err_pos;
 lla_gt_deg = ecef2lla(grd.pos', 'WGS84');
-wgs84 = wgs84Ellipsoid('meter');  
+wgs84 = wgs84Ellipsoid('meter');
 pos = estState.pos;
+log.pos_ecef(:,i) = pos;
 [xNorth,yEast,zDown] = ecef2ned(pos(1),pos(2),pos(3),lla_gt_deg(1),lla_gt_deg(2),lla_gt_deg(3),wgs84);
 ned_err = [xNorth;yEast;zDown];
 log.ned_err(:,i) = ned_err;
