@@ -101,6 +101,8 @@ end
 Ek = p.Ek0;
 % compute clock correction estimate
 dt_sv = sat_clock(sysp, prn, tidx, eph, Ek, t_sv);
+% relativistic correction (s)
+dt_sv = dt_sv + sysp.F*eph.e(prn,tidx)*eph.sqrtA(prn,tidx)*sin(Ek)- group_delay;
 tm = t_sv - dt_sv;         % Corr. mess. trans. time
 % estimate satellite position and velocity (m) & (m/s) in ECEF at corrected GPS SV transmit time
 [sat.pos_ecef, sat.v_ecef, Ek] = sat_posvel(sysp, eph, tm, prn, tidx,sys_type);
@@ -108,8 +110,6 @@ tm = t_sv - dt_sv;         % Corr. mess. trans. time
 sat.v_ecef = (pos_s-sat.pos_ecef)/0.001;
 dt_sv2 = sat_clock(sysp, prn, tidx, eph, Ek, t_sv+0.001);
 ddt_sv = (dt_sv2 - dt_sv) / 0.001;
-% relativistic correction (s)
-dt_sv = dt_sv + sysp.F*eph.e(prn,tidx)*eph.sqrtA(prn,tidx)*sin(Ek)- group_delay;
 % check for convergence
 %     sat.pos_prc = sat.pos_ecef;
 %     R = norm(sat_pos_old - sat.pos_ecef);
