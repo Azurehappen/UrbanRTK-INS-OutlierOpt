@@ -4,7 +4,7 @@ function [estState,res,state_cov] = rtkWeightLsSolver(p,cpt,code_only_flag)
 % Measurement selection applied
 % Input: 
 %       s_pos_ecef: 3-by-N Satellite position in ECEF frame.
-%       x0 : 3-by-1 initial interative coordinates in ECEF frame.
+%       x0 : 3-by-1 initial iterative coordinates in ECEF frame.
 %       y: m-by-1 Corrected pseudorange.
 %
 % Output:
