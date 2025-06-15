@@ -86,7 +86,7 @@ p.pivot_elev = deg2rad(45);
 %-------------------------------------------------------------------------%
 % Time Synchronization
 % GPS starting at 1980-1-6 00:00:00
-% Galileo starting at 1999-8-22 00:00:13
+% Galileo starting at 1999-8-21 23:59:47
 % BDS starting at 2006-1-1 00:00:00
 % Leap seconds between 1980 and 1999 is 13s, Hence GPS seconds = GAL seconds
 p.gal.lps_gps = 0;
